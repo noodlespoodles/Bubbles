@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Pop! — Bubble Wrap Bliss</title>
+  <title>Pop! — Bubble Wrap Bliss v2</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
@@ -11,108 +11,114 @@
 </head>
 <body>
   <div id="app">
-    <!-- START SCREEN -->
+    <!-- ===== START SCREEN ===== -->
     <div id="screen-start" class="screen active">
       <div class="start-content">
         <div class="logo-area">
-          <div class="logo-bubbles" aria-hidden="true">
-            <span class="logo-bubble lb1">🫧</span>
-            <span class="logo-bubble lb2">🫧</span>
-            <span class="logo-bubble lb3">🫧</span>
-          </div>
+          <canvas id="logo-canvas" width="200" height="60"></canvas>
           <h1 class="game-title">Pop!</h1>
-          <p class="game-subtitle">Bubble Wrap Bliss</p>
+          <p class="game-subtitle">Bubble Wrap Bliss <span class="version-tag">v2</span></p>
         </div>
 
         <div class="mascot-area">
           <div class="mascot" id="mascot-start">
             <div class="mascot-body">
-              <div class="mascot-eyes">
-                <span class="eye left"></span>
-                <span class="eye right"></span>
-              </div>
-              <div class="mascot-mouth happy"></div>
-              <div class="mascot-cheeks">
-                <span class="cheek left"></span>
-                <span class="cheek right"></span>
+              <div class="mascot-face">
+                <div class="mascot-eyes"><span class="eye left"></span><span class="eye right"></span></div>
+                <div class="mascot-mouth happy"></div>
+                <div class="mascot-cheeks"><span class="cheek"></span><span class="cheek"></span></div>
               </div>
             </div>
-            <div class="mascot-speech">Let's pop!</div>
+            <div class="mascot-speech" id="mascot-start-speech">Let's pop!</div>
           </div>
+        </div>
+
+        <!-- Player XP bar -->
+        <div class="xp-bar-wrap" id="xp-bar-wrap">
+          <div class="xp-info">
+            <span class="xp-level" id="xp-level">Lv 1</span>
+            <span class="xp-text" id="xp-text">0 / 100 XP</span>
+          </div>
+          <div class="xp-bar"><div class="xp-fill" id="xp-fill"></div></div>
         </div>
 
         <div class="mode-select">
           <h2>Choose Mode</h2>
           <div class="mode-buttons">
-            <button class="mode-btn" data-mode="zen" data-tooltip="No timer. Just relax and pop.">
+            <button class="mode-btn" data-mode="zen">
               <span class="mode-icon">🧘</span>
               <span class="mode-label">Zen</span>
               <span class="mode-desc">No pressure</span>
             </button>
-            <button class="mode-btn" data-mode="timed" data-tooltip="Pop as many as you can in 30 seconds!">
+            <button class="mode-btn" data-mode="timed">
               <span class="mode-icon">⏱️</span>
               <span class="mode-label">Timed</span>
               <span class="mode-desc">30 seconds</span>
             </button>
-            <button class="mode-btn" data-mode="countdown" data-tooltip="Pop them all before the clock runs out!">
+            <button class="mode-btn" data-mode="countdown">
               <span class="mode-icon">💣</span>
-              <span class="mode-label">Countdown</span>
+              <span class="mode-label">Rush</span>
               <span class="mode-desc">Beat the clock</span>
             </button>
-          </div>
-        </div>
-
-        <div class="size-select">
-          <h2>Bubble Size</h2>
-          <div class="size-buttons">
-            <button class="size-btn active" data-size="medium">
-              <span class="size-preview medium"></span>
-              <span>Medium</span>
-            </button>
-            <button class="size-btn" data-size="small">
-              <span class="size-preview small"></span>
-              <span>Small</span>
-            </button>
-            <button class="size-btn" data-size="large">
-              <span class="size-preview large"></span>
-              <span>Large</span>
+            <button class="mode-btn" data-mode="daily">
+              <span class="mode-icon">📅</span>
+              <span class="mode-label">Daily</span>
+              <span class="mode-desc">Same grid, 1 try</span>
             </button>
           </div>
         </div>
 
-        <div class="color-select">
-          <h2>Theme</h2>
-          <div class="color-buttons">
-            <button class="color-btn active" data-theme="classic" style="--swatch: #7eb8da" title="Classic">
-              <span class="swatch"></span>
-            </button>
-            <button class="color-btn" data-theme="candy" style="--swatch: #f472b6" title="Candy">
-              <span class="swatch"></span>
-            </button>
-            <button class="color-btn" data-theme="forest" style="--swatch: #4ade80" title="Forest">
-              <span class="swatch"></span>
-            </button>
-            <button class="color-btn" data-theme="sunset" style="--swatch: #fb923c" title="Sunset">
-              <span class="swatch"></span>
-            </button>
-            <button class="color-btn" data-theme="galaxy" style="--swatch: #a78bfa" title="Galaxy">
-              <span class="swatch"></span>
-            </button>
-            <button class="color-btn" data-theme="rainbow" style="--swatch: linear-gradient(135deg,#f87171,#fbbf24,#4ade80,#60a5fa,#a78bfa)" title="Rainbow">
-              <span class="swatch rainbow"></span>
-            </button>
+        <div class="option-row">
+          <div class="size-select">
+            <h2>Size</h2>
+            <div class="size-buttons">
+              <button class="size-btn active" data-size="medium"><span class="size-preview medium"></span><span>M</span></button>
+              <button class="size-btn" data-size="small"><span class="size-preview small"></span><span>S</span></button>
+              <button class="size-btn" data-size="large"><span class="size-preview large"></span><span>L</span></button>
+            </div>
+          </div>
+          <div class="color-select">
+            <h2>Theme</h2>
+            <div class="color-buttons">
+              <button class="color-btn active" data-theme="classic" style="--swatch:#7eb8da" title="Classic"><span class="swatch"></span></button>
+              <button class="color-btn" data-theme="candy" style="--swatch:#f472b6" title="Candy"><span class="swatch"></span></button>
+              <button class="color-btn" data-theme="forest" style="--swatch:#4ade80" title="Forest"><span class="swatch"></span></button>
+              <button class="color-btn" data-theme="sunset" style="--swatch:#fb923c" title="Sunset"><span class="swatch"></span></button>
+              <button class="color-btn" data-theme="galaxy" style="--swatch:#a78bfa" title="Galaxy"><span class="swatch"></span></button>
+              <button class="color-btn" data-theme="ocean" style="--swatch:#06b6d4" title="Ocean"><span class="swatch"></span></button>
+              <button class="color-btn" data-theme="rainbow" style="--swatch:conic-gradient(#f87171,#fbbf24,#4ade80,#60a5fa,#a78bfa,#f87171)" title="Rainbow"><span class="swatch rainbow"></span></button>
+            </div>
           </div>
         </div>
 
-        <button id="btn-start" class="btn-primary" disabled>
-          <span>Start Popping!</span>
-        </button>
+        <div class="settings-row">
+          <label class="toggle-label">
+            <input type="checkbox" id="toggle-sound" checked>
+            <span class="toggle-switch"></span>
+            <span>🔊 Sound</span>
+          </label>
+          <label class="toggle-label">
+            <input type="checkbox" id="toggle-haptics" checked>
+            <span class="toggle-switch"></span>
+            <span>📳 Haptics</span>
+          </label>
+        </div>
 
-        <button id="btn-leaderboard" class="btn-link">🏆 Leaderboard</button>
+        <button id="btn-start" class="btn-primary" disabled><span>Start Popping!</span></button>
+
+        <div class="bottom-links">
+          <button id="btn-leaderboard" class="btn-link">🏆 Leaderboard</button>
+          <button id="btn-badges" class="btn-link">🎖️ My Badges</button>
+        </div>
       </div>
     </div>
 
-    <!-- GAME SCREEN -->
+    <!-- ===== COUNTDOWN OVERLAY (3-2-1-POP) ===== -->
+    <div id="countdown-overlay" class="countdown-overlay" hidden>
+      <span id="countdown-number" class="countdown-number">3</span>
+    </div>
+
+    <!-- ===== GAME SCREEN ===== -->
     <div id="screen-game" class="screen">
       <div class="game-hud">
         <div class="hud-left">
@@ -127,12 +133,14 @@
         </div>
         <div class="hud-center">
           <div class="hud-timer" id="hud-timer-wrap" hidden>
+            <svg class="timer-ring" viewBox="0 0 48 48">
+              <circle class="timer-ring-bg" cx="24" cy="24" r="20"/>
+              <circle class="timer-ring-fill" id="timer-ring-fill" cx="24" cy="24" r="20"/>
+            </svg>
             <span id="hud-timer" class="timer-display">30</span>
           </div>
           <div class="hud-progress" id="hud-progress-wrap" hidden>
-            <div class="progress-bar">
-              <div class="progress-fill" id="hud-progress"></div>
-            </div>
+            <div class="progress-bar"><div class="progress-fill" id="hud-progress"></div></div>
             <span class="progress-text" id="hud-progress-text">0/0</span>
           </div>
         </div>
@@ -142,19 +150,24 @@
         </div>
       </div>
 
+      <!-- Combo fire border -->
+      <div class="combo-border" id="combo-border"></div>
+
       <div id="bubble-grid" class="bubble-grid"></div>
+
+      <!-- Power-up indicator -->
+      <div class="powerup-indicator" id="powerup-indicator" hidden>
+        <span id="powerup-icon"></span>
+        <span id="powerup-text"></span>
+      </div>
 
       <div class="game-mascot" id="mascot-game">
         <div class="mascot mini">
           <div class="mascot-body">
-            <div class="mascot-eyes">
-              <span class="eye left"></span>
-              <span class="eye right"></span>
-            </div>
-            <div class="mascot-mouth happy"></div>
-            <div class="mascot-cheeks">
-              <span class="cheek left"></span>
-              <span class="cheek right"></span>
+            <div class="mascot-face">
+              <div class="mascot-eyes"><span class="eye left"></span><span class="eye right"></span></div>
+              <div class="mascot-mouth happy"></div>
+              <div class="mascot-cheeks"><span class="cheek"></span><span class="cheek"></span></div>
             </div>
           </div>
           <div class="mascot-speech mini-speech" id="mascot-speech"></div>
@@ -167,54 +180,48 @@
           <h2>Paused</h2>
           <div class="mascot mini">
             <div class="mascot-body">
-              <div class="mascot-eyes">
-                <span class="eye left sleepy"></span>
-                <span class="eye right sleepy"></span>
+              <div class="mascot-face">
+                <div class="mascot-eyes"><span class="eye left sleepy"></span><span class="eye right sleepy"></span></div>
+                <div class="mascot-mouth sleepy"></div>
               </div>
-              <div class="mascot-mouth sleepy"></div>
             </div>
           </div>
+          <p class="pause-stats" id="pause-stats"></p>
           <button id="btn-resume" class="btn-primary">Resume</button>
           <button id="btn-quit-pause" class="btn-secondary">Quit to Menu</button>
         </div>
       </div>
     </div>
 
-    <!-- RESULTS SCREEN -->
+    <!-- ===== RESULTS SCREEN ===== -->
     <div id="screen-results" class="screen">
+      <canvas id="confetti-canvas" class="confetti-canvas"></canvas>
       <div class="results-content">
         <h1 class="results-title" id="results-title">Nice!</h1>
         <div class="mascot" id="mascot-results">
           <div class="mascot-body celebrate">
-            <div class="mascot-eyes">
-              <span class="eye left"></span>
-              <span class="eye right"></span>
-            </div>
-            <div class="mascot-mouth happy big"></div>
-            <div class="mascot-cheeks">
-              <span class="cheek left"></span>
-              <span class="cheek right"></span>
+            <div class="mascot-face">
+              <div class="mascot-eyes"><span class="eye left"></span><span class="eye right"></span></div>
+              <div class="mascot-mouth happy big"></div>
+              <div class="mascot-cheeks"><span class="cheek"></span><span class="cheek"></span></div>
             </div>
           </div>
         </div>
 
         <div class="results-stats">
-          <div class="stat">
-            <span class="stat-value" id="result-score">0</span>
-            <span class="stat-label">Score</span>
-          </div>
-          <div class="stat">
-            <span class="stat-value" id="result-popped">0</span>
-            <span class="stat-label">Popped</span>
-          </div>
-          <div class="stat">
-            <span class="stat-value" id="result-combo">0</span>
-            <span class="stat-label">Best Combo</span>
-          </div>
-          <div class="stat">
-            <span class="stat-value" id="result-time">0s</span>
-            <span class="stat-label">Time</span>
-          </div>
+          <div class="stat"><span class="stat-value" id="result-score">0</span><span class="stat-label">Score</span></div>
+          <div class="stat"><span class="stat-value" id="result-popped">0</span><span class="stat-label">Popped</span></div>
+          <div class="stat"><span class="stat-value" id="result-combo">0</span><span class="stat-label">Best Combo</span></div>
+          <div class="stat"><span class="stat-value" id="result-time">0s</span><span class="stat-label">Time</span></div>
+        </div>
+
+        <!-- New best indicator -->
+        <div class="new-best" id="new-best" hidden>🎉 New Personal Best!</div>
+
+        <!-- XP gain -->
+        <div class="xp-gain" id="xp-gain" hidden>
+          <span id="xp-gain-amount">+50 XP</span>
+          <div class="xp-bar small"><div class="xp-fill" id="xp-fill-result"></div></div>
         </div>
 
         <div class="results-badges" id="results-badges"></div>
@@ -229,35 +236,45 @@
 
         <div class="results-actions">
           <button id="btn-play-again" class="btn-primary">Play Again</button>
+          <button id="btn-share" class="btn-secondary btn-icon">📋 Share</button>
           <button id="btn-back-menu" class="btn-secondary">Menu</button>
         </div>
       </div>
     </div>
 
-    <!-- LEADERBOARD SCREEN -->
+    <!-- ===== LEADERBOARD SCREEN ===== -->
     <div id="screen-leaderboard" class="screen">
       <div class="leaderboard-content">
         <h1>🏆 Leaderboard</h1>
         <div class="leaderboard-tabs">
           <button class="lb-tab active" data-lb-mode="timed">⏱️ Timed</button>
-          <button class="lb-tab" data-lb-mode="countdown">💣 Countdown</button>
+          <button class="lb-tab" data-lb-mode="countdown">💣 Rush</button>
+          <button class="lb-tab" data-lb-mode="daily">📅 Daily</button>
           <button id="btn-lb-refresh" class="lb-refresh" title="Refresh">🔄</button>
         </div>
         <div class="lb-sync-status" id="lb-sync-status">🌐 Shared leaderboard</div>
-        <div class="leaderboard-list" id="leaderboard-list">
-          <div class="lb-empty">No scores yet. Go pop some bubbles!</div>
-        </div>
+        <div class="leaderboard-list" id="leaderboard-list"></div>
         <button id="btn-lb-back" class="btn-secondary">← Back</button>
       </div>
     </div>
 
-    <!-- Badge toast -->
+    <!-- ===== BADGES SCREEN ===== -->
+    <div id="screen-badges" class="screen">
+      <div class="badges-content">
+        <h1>🎖️ My Badges</h1>
+        <p class="badges-subtitle" id="badges-subtitle">0 / 0 unlocked</p>
+        <div class="badges-grid" id="badges-grid"></div>
+        <button id="btn-badges-back" class="btn-secondary">← Back</button>
+      </div>
+    </div>
+
+    <!-- Toast layer -->
     <div id="badge-toast" class="badge-toast" hidden>
       <span class="badge-toast-icon" id="badge-toast-icon"></span>
       <span class="badge-toast-text" id="badge-toast-text"></span>
     </div>
 
-    <!-- Floating score particles -->
+    <!-- Floating particles -->
     <div id="particles" class="particles-layer"></div>
   </div>
 

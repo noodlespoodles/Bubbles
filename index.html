@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Pop! — Bubble Wrap Bliss</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🫧</text></svg>">
+</head>
+<body>
+  <div id="app">
+    <!-- START SCREEN -->
+    <div id="screen-start" class="screen active">
+      <div class="start-content">
+        <div class="logo-area">
+          <div class="logo-bubbles" aria-hidden="true">
+            <span class="logo-bubble lb1">🫧</span>
+            <span class="logo-bubble lb2">🫧</span>
+            <span class="logo-bubble lb3">🫧</span>
+          </div>
+          <h1 class="game-title">Pop!</h1>
+          <p class="game-subtitle">Bubble Wrap Bliss</p>
+        </div>
+
+        <div class="mascot-area">
+          <div class="mascot" id="mascot-start">
+            <div class="mascot-body">
+              <div class="mascot-eyes">
+                <span class="eye left"></span>
+                <span class="eye right"></span>
+              </div>
+              <div class="mascot-mouth happy"></div>
+              <div class="mascot-cheeks">
+                <span class="cheek left"></span>
+                <span class="cheek right"></span>
+              </div>
+            </div>
+            <div class="mascot-speech">Let's pop!</div>
+          </div>
+        </div>
+
+        <div class="mode-select">
+          <h2>Choose Mode</h2>
+          <div class="mode-buttons">
+            <button class="mode-btn" data-mode="zen" data-tooltip="No timer. Just relax and pop.">
+              <span class="mode-icon">🧘</span>
+              <span class="mode-label">Zen</span>
+              <span class="mode-desc">No pressure</span>
+            </button>
+            <button class="mode-btn" data-mode="timed" data-tooltip="Pop as many as you can in 30 seconds!">
+              <span class="mode-icon">⏱️</span>
+              <span class="mode-label">Timed</span>
+              <span class="mode-desc">30 seconds</span>
+            </button>
+            <button class="mode-btn" data-mode="countdown" data-tooltip="Pop them all before the clock runs out!">
+              <span class="mode-icon">💣</span>
+              <span class="mode-label">Countdown</span>
+              <span class="mode-desc">Beat the clock</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="size-select">
+          <h2>Bubble Size</h2>
+          <div class="size-buttons">
+            <button class="size-btn active" data-size="medium">
+              <span class="size-preview medium"></span>
+              <span>Medium</span>
+            </button>
+            <button class="size-btn" data-size="small">
+              <span class="size-preview small"></span>
+              <span>Small</span>
+            </button>
+            <button class="size-btn" data-size="large">
+              <span class="size-preview large"></span>
+              <span>Large</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="color-select">
+          <h2>Theme</h2>
+          <div class="color-buttons">
+            <button class="color-btn active" data-theme="classic" style="--swatch: #7eb8da" title="Classic">
+              <span class="swatch"></span>
+            </button>
+            <button class="color-btn" data-theme="candy" style="--swatch: #f472b6" title="Candy">
+              <span class="swatch"></span>
+            </button>
+            <button class="color-btn" data-theme="forest" style="--swatch: #4ade80" title="Forest">
+              <span class="swatch"></span>
+            </button>
+            <button class="color-btn" data-theme="sunset" style="--swatch: #fb923c" title="Sunset">
+              <span class="swatch"></span>
+            </button>
+            <button class="color-btn" data-theme="galaxy" style="--swatch: #a78bfa" title="Galaxy">
+              <span class="swatch"></span>
+            </button>
+            <button class="color-btn" data-theme="rainbow" style="--swatch: linear-gradient(135deg,#f87171,#fbbf24,#4ade80,#60a5fa,#a78bfa)" title="Rainbow">
+              <span class="swatch rainbow"></span>
+            </button>
+          </div>
+        </div>
+
+        <button id="btn-start" class="btn-primary" disabled>
+          <span>Start Popping!</span>
+        </button>
+
+        <button id="btn-leaderboard" class="btn-link">🏆 Leaderboard</button>
+      </div>
+    </div>
+
+    <!-- GAME SCREEN -->
+    <div id="screen-game" class="screen">
+      <div class="game-hud">
+        <div class="hud-left">
+          <div class="hud-score">
+            <span class="hud-label">Score</span>
+            <span class="hud-value" id="hud-score">0</span>
+          </div>
+          <div class="hud-combo" id="hud-combo-wrap" hidden>
+            <span class="hud-label">Combo</span>
+            <span class="hud-value combo-value" id="hud-combo">x1</span>
+          </div>
+        </div>
+        <div class="hud-center">
+          <div class="hud-timer" id="hud-timer-wrap" hidden>
+            <span id="hud-timer" class="timer-display">30</span>
+          </div>
+          <div class="hud-progress" id="hud-progress-wrap" hidden>
+            <div class="progress-bar">
+              <div class="progress-fill" id="hud-progress"></div>
+            </div>
+            <span class="progress-text" id="hud-progress-text">0/0</span>
+          </div>
+        </div>
+        <div class="hud-right">
+          <button id="btn-pause" class="hud-btn" title="Pause">⏸️</button>
+          <button id="btn-quit" class="hud-btn" title="Quit">✕</button>
+        </div>
+      </div>
+
+      <div id="bubble-grid" class="bubble-grid"></div>
+
+      <div class="game-mascot" id="mascot-game">
+        <div class="mascot mini">
+          <div class="mascot-body">
+            <div class="mascot-eyes">
+              <span class="eye left"></span>
+              <span class="eye right"></span>
+            </div>
+            <div class="mascot-mouth happy"></div>
+            <div class="mascot-cheeks">
+              <span class="cheek left"></span>
+              <span class="cheek right"></span>
+            </div>
+          </div>
+          <div class="mascot-speech mini-speech" id="mascot-speech"></div>
+        </div>
+      </div>
+
+      <!-- Pause overlay -->
+      <div id="pause-overlay" class="overlay" hidden>
+        <div class="overlay-card">
+          <h2>Paused</h2>
+          <div class="mascot mini">
+            <div class="mascot-body">
+              <div class="mascot-eyes">
+                <span class="eye left sleepy"></span>
+                <span class="eye right sleepy"></span>
+              </div>
+              <div class="mascot-mouth sleepy"></div>
+            </div>
+          </div>
+          <button id="btn-resume" class="btn-primary">Resume</button>
+          <button id="btn-quit-pause" class="btn-secondary">Quit to Menu</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTS SCREEN -->
+    <div id="screen-results" class="screen">
+      <div class="results-content">
+        <h1 class="results-title" id="results-title">Nice!</h1>
+        <div class="mascot" id="mascot-results">
+          <div class="mascot-body celebrate">
+            <div class="mascot-eyes">
+              <span class="eye left"></span>
+              <span class="eye right"></span>
+            </div>
+            <div class="mascot-mouth happy big"></div>
+            <div class="mascot-cheeks">
+              <span class="cheek left"></span>
+              <span class="cheek right"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="results-stats">
+          <div class="stat">
+            <span class="stat-value" id="result-score">0</span>
+            <span class="stat-label">Score</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="result-popped">0</span>
+            <span class="stat-label">Popped</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="result-combo">0</span>
+            <span class="stat-label">Best Combo</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="result-time">0s</span>
+            <span class="stat-label">Time</span>
+          </div>
+        </div>
+
+        <div class="results-badges" id="results-badges"></div>
+
+        <div class="results-name" id="results-name-area">
+          <label for="player-name">Save your score:</label>
+          <div class="name-input-row">
+            <input type="text" id="player-name" placeholder="Your name" maxlength="16" autocomplete="off">
+            <button id="btn-save-score" class="btn-primary small">Save</button>
+          </div>
+        </div>
+
+        <div class="results-actions">
+          <button id="btn-play-again" class="btn-primary">Play Again</button>
+          <button id="btn-back-menu" class="btn-secondary">Menu</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEADERBOARD SCREEN -->
+    <div id="screen-leaderboard" class="screen">
+      <div class="leaderboard-content">
+        <h1>🏆 Leaderboard</h1>
+        <div class="leaderboard-tabs">
+          <button class="lb-tab active" data-lb-mode="timed">⏱️ Timed</button>
+          <button class="lb-tab" data-lb-mode="countdown">💣 Countdown</button>
+          <button id="btn-lb-refresh" class="lb-refresh" title="Refresh">🔄</button>
+        </div>
+        <div class="lb-sync-status" id="lb-sync-status">🌐 Shared leaderboard</div>
+        <div class="leaderboard-list" id="leaderboard-list">
+          <div class="lb-empty">No scores yet. Go pop some bubbles!</div>
+        </div>
+        <button id="btn-lb-back" class="btn-secondary">← Back</button>
+      </div>
+    </div>
+
+    <!-- Badge toast -->
+    <div id="badge-toast" class="badge-toast" hidden>
+      <span class="badge-toast-icon" id="badge-toast-icon"></span>
+      <span class="badge-toast-text" id="badge-toast-text"></span>
+    </div>
+
+    <!-- Floating score particles -->
+    <div id="particles" class="particles-layer"></div>
+  </div>
+
+  <script src="audio.js"></script>
+  <script src="db.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
